@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
+use GuzzleHttp\Psr7\Request;
 
 class PostController extends Controller
 {
@@ -15,7 +16,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        return response()->json(['hello' => 'We are testing url']);
+        $post = Post::all();
+        return response()->json(['post' => $post]);
     }
 
     /**
@@ -28,7 +30,15 @@ class PostController extends Controller
     {
 
         try {
-            Post::create($request->all());
+            $path = request('image')->store('images');
+
+            Post::create([
+                'title' => $request->title,
+                'image' => $request->image,
+                'body' => $request->body,
+                'url' => $request->url
+            ]);
+
             return response()->json(['hello' => 'Post created successfully']);
         } catch (\Exception $e) {
             info($e->getMessage());
