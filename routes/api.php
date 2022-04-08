@@ -3,7 +3,10 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PassportAuthController;
+use App\Http\Controllers\PController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\ProductController;
+use App\Models\Product;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,7 +24,8 @@ use App\Http\Controllers\PostController;
 // });
 
 Route::middleware('auth:api')->group(function () {
-    Route::resource('posts', PostController::class);
+    Route::resource('ps', PController::class);
+    Route::resource('product', ProductController::class);
 });
 
 Route::post('registers', [PassportAuthController::class, 'register']);
